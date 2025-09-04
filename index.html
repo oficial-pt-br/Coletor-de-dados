@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulário de Coleta de Dados - iOS Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.03);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+      }
+
+      .animate-pulse {
+        animation: pulse 2s infinite;
+      }
+
+      .section {
+        opacity: 0;
+      }
+
+      .ios-toggle {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 52px;
+        height: 32px;
+        background: #e5e7eb;
+        border-radius: 16px;
+        position: relative;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      .ios-toggle:checked {
+        background: #3b82f6;
+      }
+
+      .ios-toggle::after {
+        content: "";
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: white;
+        top: 2px;
+        left: 2px;
+        transition: all 0.3s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      .ios-toggle:checked::after {
+        left: calc(100% - 30px);
+      }
+
+      .ios-card {
+        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      .ios-input {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+
+      .ios-input:focus {
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      /* Barra fixa no topo */
+      #progress-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px; /* altura da barra */
+        background: transparent; /* sem fundo */
+        z-index: 9999;
+      }
+
+      #progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #3b82f6; /* azul Tailwind */
+        transition: width 0.25s ease;
+      }
+      body {
+        margin-top: 40vh;
+        font-size: 1rem;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      }
+      label:has(.ios-toggle:checked) {
+  background: rgba(59,130,246,0.12);
+  border-radius: 999px;
+  padding: 2px;
+}
+
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-b from-blue-50 to-purple-50 min-h-screen font-sans antialiased text-gray-800"
+  >
+  <div>
+    <div class="container mx-auto px-4 py-8 max-w-3xl">
+      <!-- Floating iOS bubble -->
+      
+
+      <!-- Header -->
+      <header
+        class="mb-8 text-center animate-fade-in"
+        style="animation-delay: 0.1s"
+      >
+        <div class="ios-card rounded-3xl p-6 mb-4">
+          <h1 class="text-3xl font-bold text-gray-800 mb-2">
+            Formulário do Projeto
+          </h1>
+          <p class="text-gray-600">
+            Preencha os detalhes sobre seu projeto de site
+          </p>
+        </div>
+
+        <!-- Progress bar -->
+         <div>
+        <div class="ios-card rounded-3xl p-4 mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium text-gray-600">Progresso</span>
+            <span
+              class="text-sm font-medium text-blue-500"
+              id="progress-percentage"
+              >0%</span
+            >
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div
+              class="progress-bar rounded-full h-2"
+              style="width: 0%"
+              id="progress-bar"
+            ></div>
+          </div>
+        </div>
+      </header>
+
+      <form id="project-form" class="space-y-6" action="https://formsubmit.co/dinheiro12p@gmail.com" method="POST">
+        <!-- Contact Information Section -->
+        <section class="section ios-card rounded-3xl p-6" id="contact-section">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 p-3 rounded-xl mr-3">
+              <i class="fas fa-user text-blue-500"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Informações de Contato</h2>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Nome completo</label
+              >
+              <input
+                name="Nome"
+                type="text"
+                required
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                placeholder="Seu nome completo"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Empresa/Marca</label
+              >
+              <input
+                name="Marca"
+                type="text"
+                required
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                placeholder="Nome da sua empresa ou marca"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >E-mail</label
+              >
+              <input
+                name="E-mail"
+                type="email"
+                required
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                placeholder="seu@email.com"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Telefone/WhatsApp</label
+              >
+              <input
+                name="telefone"
+                type="tel"
+                required
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                placeholder="(00) 00000-0000"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- Business Information Section -->
+        <section class="section ios-card rounded-3xl p-6" id="business-section">
+          <div class="flex items-center mb-4">
+            <div class="bg-purple-100 p-3 rounded-xl mr-3">
+              <i class="fas fa-briefcase text-purple-500"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Sobre o Negócio</h2>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >5. Descreva brevemente sua empresa ou negócio</label
+              >
+              <textarea
+                name="O que sua empresa faz?"
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                rows="3"
+                placeholder="O que sua empresa faz?"
+              ></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >6. Qual é o público-alvo principal do seu site?</label
+              >
+              <div class="space-y-2">
+                <label class="flex items-center space-x-3">
+                  <input
+                    type="radio"
+                    name="Consumidores finais"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Consumidores finais</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    type="radio"
+                    name="Empresas"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Empresas</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    type="radio"
+                    name="Ambos"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Ambos</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    type="radio"
+                    name="Outro"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Outro:</span>
+                  <input
+                    type="text"
+                    class="ios-input flex-1 px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >7. Quais produtos ou serviços você oferece?</label
+              >
+              <textarea
+                name="pordutos e serviços"
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                rows="3"
+                placeholder="Liste seus principais produtos ou serviços"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- Website Objective Section -->
+        <section
+          class="section ios-card rounded-3xl p-6"
+          id="objective-section"
+        >
+          <div class="flex items-center mb-4">
+            <div class="bg-green-100 p-3 rounded-xl mr-3">
+              <i class="fas fa-bullseye text-green-500"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Objetivo do Site</h2>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"
+              >8. Qual é o principal objetivo do site?</label
+            >
+            <div class="space-y-2">
+              <label class="flex items-center space-x-3">
+                <input
+                  type="radio"
+                  name="Vender online (loja virtual)"
+                  class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                />
+                <span>Vender online (loja virtual)</span>
+              </label>
+              <label class="flex items-center space-x-3">
+                <input
+                  type="radio"
+                  name="Apresentar portfólio"
+                  class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                />
+                <span>Apresentar portfólio</span>
+              </label>
+              <label class="flex items-center space-x-3">
+                <input
+                  type="radio"
+                  name="Informar sobre serviços/produtos"
+                  class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                />
+                <span>Informar sobre serviços/produtos</span>
+              </label>
+              <label class="flex items-center space-x-3">
+                <input
+                  type="radio"
+                  name="Captar leads (formulários de contato)"
+                  class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                />
+                <span>Captar leads (formulários de contato)</span>
+              </label>
+              <label class="flex items-center space-x-3">
+                <input
+                  type="radio"
+                  name="Outro"
+                  class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                />
+                <span>Outro:</span>
+                <input
+                  type="text"
+                  class="ios-input flex-1 px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300"
+                />
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Visual Identity Section -->
+        <section class="section ios-card rounded-3xl p-6" id="visual-section">
+          <div class="flex items-center mb-4">
+            <div class="bg-yellow-100 p-3 rounded-xl mr-3">
+              <i class="fas fa-palette text-yellow-500"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Identidade Visual</h2>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700"
+                >9. Você já tem logotipo?</label
+              >
+              <div class="flex space-x-4">
+                <label class="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="sim tenho uma logo"
+                    value="yes"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Sim</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="não tenho uma logo"
+                    value="no"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Não</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700"
+                >10. Possui manual de identidade visual ou cores da
+                marca?</label
+              >
+              <div class="flex space-x-4">
+                <label class="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="identidade visual, sim"
+                    value="yes"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Sim</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="identidade visual, não"
+                    value="no"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Não</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >11. Indique 2 ou 3 sites que você gosta (como
+                referência)</label
+              >
+              <textarea
+                name="sites que gostaria"
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                rows="2"
+                placeholder="Cole os links aqui"
+              ></textarea>
+              
+            </div>
+          </div>
+        </section>
+
+        <!-- Website Content Section -->
+        <section class="section ios-card rounded-3xl p-6" id="content-section">
+          <div class="flex items-center mb-4">
+            <div class="bg-red-100 p-3 rounded-xl mr-3">
+              <i class="fas fa-file-alt text-red-500"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Conteúdo do Site</h2>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700"
+                >12. Já possui textos prontos para o site?</label
+              >
+              <div class="flex space-x-4">
+                <label class="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="Já possui textos prontos para o site!"
+                    value="yes"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Sim</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="Não possui textos prontos para o site!"
+                    value="no"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Não</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700"
+                >13. Já possui fotos e imagens de qualidade?</label
+              >
+              <div class="flex space-x-4">
+                <label class="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="sim possuo fotos e imagens de qualidade"
+                    value="yes"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Sim</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="não possuo fotos e imagens de qualidade"
+                    value="no"
+                    class="h-5 w-5 text-blue-500 focus:ring-blue-300"
+                  />
+                  <span>Não</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >14. Quais páginas deseja ter no site?</label
+              >
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <label class="flex items-center space-x-3">
+                  <input
+                    name="Quais paginas desejas no seu site?"
+                    type="checkbox"
+                    class="h-5 w-5 text-blue-500 rounded focus:ring-blue-300"
+                  />
+                  <span>Home</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    name="Home"
+                    type="checkbox"
+                    class="h-5 w-5 text-blue-500 rounded focus:ring-blue-300"
+                  />
+                  <span>Sobre</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    name="Sobre"
+                    type="checkbox"
+                    class="h-5 w-5 text-blue-500 rounded focus:ring-blue-300"
+                  />
+                  <span>Serviços/Produtos</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    name="Serviços/produtos"
+                    type="checkbox"
+                    class="h-5 w-5 text-blue-500 rounded focus:ring-blue-300"
+                  />
+                  <span>Portfólio</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    name="Portfólio"
+                    type="checkbox"
+                    class="h-5 w-5 text-blue-500 rounded focus:ring-blue-300"
+                  />
+                  <span>Blog/Artigos</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    name="Blog/Artigos"
+                    type="checkbox"
+                    class="h-5 w-5 text-blue-500 rounded focus:ring-blue-300"
+                  />
+                  <span>Contato</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    name="Contato"
+                    type="checkbox"
+                    class="h-5 w-5 text-blue-500 rounded focus:ring-blue-300"
+                  />
+                  <span>Loja Virtual</span>
+                </label>
+                <label class="flex items-center space-x-3">
+                  <input
+                    name="loja Virtual"
+                    type="checkbox"
+                    class="h-5 w-5 text-blue-500 rounded focus:ring-blue-300"
+                  />
+                  <span>Outro:</span>
+                  <input
+                    name="Outras"
+                    type="text"
+                    class="ios-input flex-1 px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Extra Features Section -->
+        <section class="section ios-card rounded-3xl p-6" id="features-section">
+          <div class="flex items-center mb-4">
+            <div class="bg-indigo-100 p-3 rounded-xl mr-3">
+              <i class="fas fa-cogs text-indigo-500"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Funcionalidades Extras</h2>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700"
+                >15. Deseja integração com redes sociais?</label
+              >
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input name="integraçao com rede sociais" type="checkbox" class="ios-toggle" />
+              </label>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700"
+                >16. Precisa de formulário de contato?</label
+              >
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input name="preciso de formulario de contato!" type="checkbox"  class="ios-toggle " />
+              </label>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700"
+                >17. Deseja WhatsApp integrado?</label
+              >
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input name="quero WhatsApp integrado" type="checkbox" class="ios-toggle" />
+              </label>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700"
+                >18. Necessita integração de pagamentos online?</label
+              >
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input name="integração de pagamentos online" type="checkbox" class="ios-toggle" />
+              </label>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >19. Outras funcionalidades que gostaria</label
+              >
+              <textarea
+                name="funcionalidades"
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                rows="2"
+                placeholder="Descreva outras funcionalidades desejadas"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- Deadline & Budget Section -->
+        <section class="section ios-card rounded-3xl p-6" id="deadline-section">
+          <div class="flex items-center mb-4">
+            <div class="bg-pink-100 p-3 rounded-xl mr-3">
+              <i class="fas fa-calendar-alt text-pink-500"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Prazo e Orçamento</h2>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >20. Qual o prazo desejado para a entrega do site?</label
+              >
+              <input
+                name="prazo para entregar o site"
+                type="text"
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                placeholder="Ex: 30 dias, 2 meses, etc."
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >21. Qual a faixa de orçamento disponível para este
+                projeto?</label
+              >
+              <input
+                name="Orçamento do site"
+                type="text"
+                class="ios-input w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200"
+                placeholder="Ex: R$ 2.000 - R$ 5.000"
+              />
+            </div>
+          </div>
+        </section>
+        <button type="submit">Enviar</button>
+      </form>
+      
+    </div>
+    
+      <!-- Success Modal -->
+      <div
+        id="success-modal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
+      >
+        <div
+          class="ios-card rounded-3xl p-8 max-w-md w-full mx-4 text-center animate-fade-in"
+        >
+          <div class="bg-green-100 p-4 rounded-full inline-block mb-4">
+            <i class="fas fa-check-circle text-green-500 text-4xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-2">
+            Formulário Enviado!
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Obrigado por preencher nosso formulário. Entraremos em contato em
+            breve.
+          </p>
+        
+          <button
+          
+            id="close-modal"
+            class="bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 transition-all duration-300"
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  
+</body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Animate sections on load
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section, index) => {
+          setTimeout(() => {
+            section.style.opacity = "1";
+            section.classList.add("animate-fade-in");
+            section.style.animationDelay = `${index * 0.1}s`;
+          }, 100);
+        });
+
+        // Update progress bar as user fills the form
+        const form = document.getElementById("project-form");
+        const progressBar = document.getElementById("progress-bar");
+        const progressPercentage = document.getElementById(
+          "progress-percentage"
+        );
+
+        function updateProgress() {
+          const inputs = form.querySelectorAll("input, textarea");
+          let filled = 0;
+
+          inputs.forEach((input) => {
+            if (input.type === "radio" || input.type === "checkbox") {
+              if (input.checked) filled++;
+            } else if (input.type !== "submit" && input.value.trim() !== "") {
+              filled++;
+            }
+          });
+
+          const percentage = Math.min(
+            100,
+            Math.round((filled / inputs.length) * 100)
+          );
+          progressBar.style.width = `${percentage}%`;
+          progressPercentage.textContent = `${percentage}%`;
+
+          // Pulse animation when progress increases
+          if (percentage > parseInt(progressBar.style.width || "0")) {
+            progressBar.classList.add("animate-pulse");
+            setTimeout(() => {
+              progressBar.classList.remove("animate-pulse");
+            }, 1000);
+          }
+        }
+
+        form.addEventListener("input", updateProgress);
+
+        // Submit button animation
+        const submitBtn = document.getElementById("submit-btn");
+        submitBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Check if form is valid
+          let isValid = true;
+          const requiredInputs = form.querySelectorAll("[required]");
+
+          requiredInputs.forEach((input) => {
+            if (input.value.trim() === "") {
+              isValid = false;
+              input.classList.add("ring-2", "ring-red-500");
+              setTimeout(() => {
+                input.classList.remove("ring-2", "ring-red-500");
+              }, 2000);
+            }
+          });
+
+          if (isValid) {
+            // Show success modal
+            const modal = document.getElementById("success-modal");
+            modal.classList.remove("hidden");
+
+            // Floating animation for the checkmark
+            const checkmark = modal.querySelector(".fa-check-circle");
+            checkmark.parentElement.classList.add("animate-float");
+          }
+        });
+
+        // Close modal
+        const closeModal = document.getElementById("close-modal");
+        closeModal.addEventListener("click", function () {
+          document.getElementById("success-modal").classList.add("hidden");
+        });
+
+        // iOS-like toggle animation
+        const toggles = document.querySelectorAll(".ios-toggle");
+        toggles.forEach((toggle) => {
+          toggle.addEventListener("change", function () {
+            const p = this.parentElement;
+            if (this.checked) {
+      p.style.background = 'rgba(59,130,246,0.12)'; // leve
+      p.style.borderRadius = '999px';               // garante arredondado
+      p.style.padding = '2px';                      // se quiser margem interna
+    } else {
+      p.style.background = '';
+      p.style.borderRadius = '';
+      p.style.padding = '';
+    }
+          });
+        });
+
+        // Smooth scroll to sections when clicking on progress bar
+        progressBar.addEventListener("click", function () {
+          const nextEmptySection = findNextEmptySection();
+          if (nextEmptySection) {
+            nextEmptySection.scrollIntoView({ behavior: "smooth" });
+
+            // Highlight the section briefly
+            nextEmptySection.style.boxShadow =
+              "0 0 0 3px rgba(59, 130, 246, 0.5)";
+            setTimeout(() => {
+              nextEmptySection.style.boxShadow = "none";
+            }, 2000);
+          }
+        });
+
+        function findNextEmptySection() {
+          const sections = document.querySelectorAll(".section");
+          for (const section of sections) {
+            const inputs = section.querySelectorAll("input, textarea");
+            let hasEmptyRequired = false;
+
+            inputs.forEach((input) => {
+              if (input.required && input.value.trim() === "") {
+                hasEmptyRequired = true;
+              }
+            });
+
+            if (hasEmptyRequired) {
+              return section;
+            }
+          }
+          return null;
+        }
+      });
+    </script>
+  </body>
+</html>
